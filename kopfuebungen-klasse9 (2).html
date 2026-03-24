@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathe Kopfübungen · Klasse 9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<style>
+:root{
+  --bg:#0d1117;--bg2:#161b22;--card:#1c2333;--card2:#21293b;
+  --border:rgba(99,120,170,.25);--blue:#4f9cf9;--blue2:#2563eb;
+  --gold:#f5a623;--green:#3dd68c;--red:#f96464;--purple:#b088f9;
+  --text:#e6edf3;--muted:#7d8fa9;--r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom,20px)}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(circle at 15% 20%,rgba(79,156,249,.07) 0,transparent 50%),
+  radial-gradient(circle at 85% 80%,rgba(176,136,249,.07) 0,transparent 50%);
+  pointer-events:none;z-index:0}
+
+.screen{display:none;min-height:100vh;padding:20px 14px;position:relative;z-index:1;animation:fadeUp .3s ease}
+.screen.active{display:flex;flex-direction:column;align-items:center}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* START */
+#s-start{justify-content:center;text-align:center;gap:20px}
+.logo{font-size:3rem}
+.start-title{font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.start-sub{color:var(--muted);font-weight:600;margin-top:-6px}
+.mode-grid{display:grid;gap:12px;width:100%;max-width:400px}
+.mode-btn{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;cursor:pointer;color:var(--text);font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;text-align:left;display:flex;align-items:center;gap:14px;transition:all .2s;touch-action:manipulation}
+.mode-btn:hover{border-color:var(--blue);background:var(--card2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,156,249,.15)}
+.mode-btn .mico{font-size:1.7rem;flex-shrink:0}
+.msub{font-size:.75rem;color:var(--muted);margin-top:2px}
+.warn-box{background:rgba(245,166,35,.09);border:1.5px solid rgba(245,166,35,.35);border-radius:10px;padding:10px 16px;max-width:400px;width:100%;font-size:.8rem;font-weight:700;color:#f5a623;text-align:center;line-height:1.5}
+
+/* Stats panel */
+.stats-panel{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:16px;width:100%;max-width:400px}
+.stats-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.stats-title{font-size:.88rem;font-weight:900;color:var(--text)}
+.stats-reset{background:transparent;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;touch-action:manipulation;min-height:36px}
+.stats-reset:hover{border-color:var(--red);color:var(--red)}
+.stat-row{display:flex;align-items:center;gap:8px;padding:4px 0}
+.stat-num{font-size:.72rem;font-weight:800;color:var(--muted);width:14px;flex-shrink:0;text-align:right}
+.stat-name{font-size:.75rem;font-weight:700;width:130px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat-bar-wrap{flex:1;height:8px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;position:relative}
+.stat-bar-bg{height:100%;border-radius:4px;background:rgba(249,100,100,.25);position:absolute;top:0;left:0;transition:width .5s ease}
+.stat-bar-ok{height:100%;border-radius:4px;background:var(--green);position:absolute;top:0;left:0;transition:width .5s ease}
+.stat-pct{font-size:.72rem;font-weight:800;width:34px;text-align:right;flex-shrink:0}
+.stat-count{font-size:.68rem;color:var(--muted);font-weight:600;width:40px;text-align:right;flex-shrink:0}
+.stats-empty{font-size:.8rem;color:var(--muted);font-weight:600;text-align:center;padding:8px 0}
+
+/* SELECT + SINGLE */
+#s-select,#s-single{gap:16px;max-width:600px;margin:0 auto;width:100%}
+.hdr{display:flex;align-items:center;gap:10px;width:100%}
+.hdr-title{font-size:1.35rem;font-weight:900;flex:1}
+.back-btn{background:var(--card);border:1.5px solid var(--border);border-radius:8px;padding:10px 16px;cursor:pointer;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;white-space:nowrap;transition:all .2s;touch-action:manipulation;min-height:44px}
+.back-btn:hover{border-color:var(--blue);color:var(--text)}
+.abort-btn{background:rgba(249,100,100,.08);border:1.5px solid rgba(249,100,100,.3);border-radius:8px;padding:10px 16px;cursor:pointer;color:var(--red);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;white-space:nowrap;transition:all .2s;touch-action:manipulation;min-height:44px}
+.abort-btn:hover{background:rgba(249,100,100,.18);border-color:var(--red)}
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.ex-chk{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px;cursor:pointer;transition:all .2s;user-select:none;display:flex;align-items:center;gap:10px}
+.ex-chk:hover{border-color:var(--blue);background:var(--card2)}
+.ex-chk.sel{border-color:var(--blue);background:rgba(79,156,249,.09)}
+.chk-icon{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:all .2s}
+.sel .chk-icon{background:var(--blue);border-color:var(--blue);color:#fff}
+.chk-text{font-size:.82rem;font-weight:700;line-height:1.3}
+.chk-num{font-size:.68rem;color:var(--muted);font-weight:600}
+.sel-acts{display:flex;gap:10px;width:100%}
+.btn-prim{background:linear-gradient(135deg,var(--blue2),var(--blue));border:none;border-radius:var(--r);padding:13px 24px;cursor:pointer;color:#fff;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;transition:all .2s;flex:1;touch-action:manipulation;min-height:44px}
+.btn-prim:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(79,156,249,.3)}
+.btn-prim:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-sec{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:13px 18px;cursor:pointer;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;transition:all .2s;touch-action:manipulation;min-height:44px}
+.btn-sec:hover{border-color:var(--blue);color:var(--text)}
+.s-item{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 16px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);transition:all .2s;display:flex;align-items:center;gap:12px}
+.s-item:hover{border-color:var(--blue);background:var(--card2);transform:translateX(4px)}
+.nbadge{background:var(--blue2);color:#fff;width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:900;flex-shrink:0}
+
+/* EXERCISE SCREEN */
+#s-ex{gap:12px;justify-content:flex-start}
+.ex-sticky{position:-webkit-sticky;position:sticky;top:0;z-index:10;display:flex;flex-direction:column;gap:6px;width:100%;max-width:660px;padding-bottom:4px}
+.warn-strip{background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:5px 12px;font-size:.72rem;font-weight:700;color:rgba(245,166,35,.8);text-align:center}
+.prog-bar{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:9px 14px;width:100%;display:flex;align-items:center;gap:10px}
+.prog-info{font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+.prog-info strong{color:var(--text)}
+.prog-track{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;min-width:40px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue2),var(--blue));border-radius:3px;transition:width .4s}
+.score-pills{display:flex;gap:5px;flex-shrink:0}
+.pill{padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:800}
+.pg{background:rgba(61,214,140,.13);color:var(--green)}
+.pr{background:rgba(249,100,100,.13);color:var(--red)}
+
+/* Exercise list + cards */
+#ex-list{display:flex;flex-direction:column;gap:12px;width:100%;max-width:660px;padding-bottom:40px}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:22px;width:100%;animation:cardIn .3s ease}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ex-card.done-ok{border-color:rgba(61,214,140,.35);background:rgba(61,214,140,.03)}
+.ex-card.done-ng{border-color:rgba(249,100,100,.3);background:rgba(249,100,100,.03)}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.type-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(79,156,249,.09);border:1px solid rgba(79,156,249,.28);border-radius:7px;padding:3px 11px;font-size:.76rem;font-weight:800;color:var(--blue)}
+.sub-badge{padding:2px 7px;background:rgba(176,136,249,.13);border:1px solid rgba(176,136,249,.28);border-radius:5px;font-size:.7rem;color:var(--purple);font-weight:700}
+.result-icon{font-size:1.3rem}
+.q-area{font-size:1.35rem;text-align:center;padding:14px 8px 20px;min-height:64px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+.q-area .katex{font-size:1.35rem}
+
+/* Reveal + self-check */
+.btn-reveal{background:rgba(79,156,249,.1);border:1.5px solid rgba(79,156,249,.35);border-radius:var(--r);padding:13px 28px;cursor:pointer;color:var(--text);font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;transition:all .2s;width:100%;touch-action:manipulation;min-height:48px}
+.btn-reveal:hover{border-color:var(--blue);background:rgba(79,156,249,.18);transform:translateY(-1px)}
+.btn-cor{background:rgba(61,214,140,.12);border:1.5px solid rgba(61,214,140,.35);border-radius:var(--r);padding:14px;cursor:pointer;color:var(--green);font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;flex:1;transition:all .2s;touch-action:manipulation;min-height:52px}
+.btn-cor:hover{background:rgba(61,214,140,.22);transform:translateY(-1px)}
+.btn-wrg{background:rgba(249,100,100,.09);border:1.5px solid rgba(249,100,100,.3);border-radius:var(--r);padding:14px;cursor:pointer;color:var(--red);font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;flex:1;transition:all .2s;touch-action:manipulation;min-height:52px}
+.btn-wrg:hover{background:rgba(249,100,100,.18);transform:translateY(-1px)}
+.fb-box{border-radius:var(--r);padding:14px 16px;animation:slideD .22s ease}
+@keyframes slideD{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.fb-ok{background:rgba(61,214,140,.07);border:1.5px solid rgba(61,214,140,.25)}
+.fb-ng{background:rgba(249,100,100,.06);border:1.5px solid rgba(249,100,100,.22)}
+.fb-lbl{font-size:.73rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.fb-ok .fb-lbl{color:var(--green)}
+.fb-ng .fb-lbl{color:var(--red)}
+.fb-ans{font-size:1.1rem;text-align:center;padding:6px 0}
+.fb-ans .katex{font-size:1.15rem}
+.btn-next{background:linear-gradient(135deg,var(--blue2),var(--blue));border:none;border-radius:var(--r);padding:13px 28px;cursor:pointer;color:#fff;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;transition:all .2s;width:100%;margin-top:10px;animation:pls .55s ease}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(79,156,249,.32)}
+@keyframes pls{0%{box-shadow:0 0 0 0 rgba(79,156,249,.45)}70%{box-shadow:0 0 0 10px rgba(79,156,249,0)}100%{box-shadow:none}}
+
+/* Graph */
+.graph-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.graph-inst{background:rgba(79,156,249,.08);border:1px solid rgba(79,156,249,.2);border-radius:10px;padding:9px 14px;font-size:.82rem;font-weight:700;color:var(--blue);text-align:center;width:100%;max-width:500px}
+.phase-txt{display:block;color:var(--gold);font-size:.78rem;margin-top:3px}
+.g-legend{display:flex;gap:12px;font-size:.76rem;font-weight:700;color:var(--muted);flex-wrap:wrap;justify-content:center}
+.g-legend span{display:flex;align-items:center;gap:4px}
+.ldot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.btn-greset{background:transparent;border:1px solid var(--border);border-radius:7px;padding:10px 16px;font-family:'Nunito',sans-serif;font-size:.77rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;touch-action:manipulation;min-height:44px}
+.btn-greset:hover{border-color:var(--red);color:var(--red)}
+.btn-gcheck{background:linear-gradient(135deg,var(--blue2),var(--blue));border:none;border-radius:var(--r);padding:14px 28px;cursor:pointer;color:#fff;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;transition:all .2s;width:100%;margin-top:8px;touch-action:manipulation;min-height:48px}
+.btn-gcheck:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(79,156,249,.28)}
+.btn-gcheck:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* Results */
+#s-res{justify-content:center;gap:18px;max-width:560px;margin:0 auto;width:100%;text-align:center}
+.res-circle{width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--green) calc(var(--pct)*1%),var(--card2) 0);display:flex;align-items:center;justify-content:center;position:relative;margin:0 auto}
+.res-circle::before{content:'';position:absolute;inset:9px;border-radius:50%;background:var(--bg2)}
+.res-inner{position:relative;z-index:1}
+.res-pct{font-size:1.9rem;font-weight:900;color:var(--green)}
+.res-frac{font-size:.78rem;color:var(--muted);font-weight:700}
+.res-breakdown{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:14px;width:100%;text-align:left}
+.bd-title{font-size:.78rem;font-weight:800;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+.bd-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.85rem}
+.bd-row:last-child{border:none}
+.bd-num{font-size:.72rem;color:var(--muted);font-weight:700;width:22px;flex-shrink:0}
+.bd-name{flex:1;font-weight:700}
+.res-acts{display:flex;gap:10px;width:100%}
+
+.hidden{display:none!important}
+@media(max-width:600px){.ex-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.q-area .katex{font-size:1.1rem}}
+</style>
+</head>
+<body>
+
+<!-- START -->
+<div id="s-start" class="screen active">
+  <div class="logo">📐</div>
+  <div class="start-title">Kopfübungen</div>
+  <div class="start-sub">Mathematik · Klasse 9</div>
+  <div class="warn-box">
+    ⚠️ <strong>Testversion</strong> · Aufgaben und Lösungen können vereinzelt Fehler enthalten. Rückmeldungen werden gerne entgegengenommen!
+  </div>
+  <div class="mode-grid">
+    <button class="mode-btn" onclick="startAll()">
+      <span class="mico">🎯</span>
+      <div><div>Alle Aufgaben</div><div class="msub">Alle 10 Typen · 1 Aufgabe je</div></div>
+    </button>
+    <button class="mode-btn" onclick="showSelectScreen()">
+      <span class="mico">✅</span>
+      <div><div>Auswahl treffen</div><div class="msub">Bestimmte Typen auswählen</div></div>
+    </button>
+    <button class="mode-btn" onclick="showSingleScreen()">
+      <span class="mico">🔁</span>
+      <div><div>Einzelne Aufgabe</div><div class="msub">Einen Typ · 5 Aufgaben hintereinander</div></div>
+    </button>
+  </div>
+  <div class="stats-panel">
+    <div class="stats-hdr">
+      <div class="stats-title">📊 Meine Statistik</div>
+      <button class="stats-reset" onclick="resetStats()">↺ Zurücksetzen</button>
+    </div>
+    <div id="stats-body"><div class="stats-empty">Noch keine Aufgaben bearbeitet.</div></div>
+  </div>
+</div>
+
+<!-- SELECT -->
+<div id="s-select" class="screen">
+  <div class="hdr" style="max-width:600px;width:100%">
+    <button class="back-btn" onclick="showScreen('s-start')">← Zurück</button>
+    <div class="hdr-title">Aufgaben auswählen</div>
+    <button class="abort-btn" onclick="showScreen('s-start')">✕ Abbrechen</button>
+  </div>
+  <div class="ex-grid" id="sel-grid" style="max-width:600px"></div>
+  <div class="sel-acts" style="max-width:600px">
+    <button class="btn-sec" onclick="toggleAll()">Alle / Keine</button>
+    <button class="btn-prim" id="btn-start-sel" onclick="startSel()">Üben starten →</button>
+  </div>
+</div>
+
+<!-- SINGLE -->
+<div id="s-single" class="screen">
+  <div class="hdr" style="max-width:560px;width:100%">
+    <button class="back-btn" onclick="showScreen('s-start')">← Zurück</button>
+    <div class="hdr-title">Einzelne Aufgabe wählen</div>
+    <button class="abort-btn" onclick="showScreen('s-start')">✕ Abbrechen</button>
+  </div>
+  <div id="single-list" style="width:100%;max-width:560px;display:flex;flex-direction:column;gap:8px"></div>
+</div>
+
+<!-- EXERCISE -->
+<div id="s-ex" class="screen">
+  <div class="ex-sticky">
+    <div class="warn-strip">⚠️ Testversion – Aufgaben und Lösungen können Fehler enthalten</div>
+    <div class="prog-bar">
+      <button class="abort-btn" onclick="confirmAbort()">✕ Abbrechen</button>
+      <div class="prog-info"><strong id="prog-txt">1 / 10</strong></div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="score-pills">
+        <div class="pill pg">✓ <span id="sc-cor">0</span></div>
+        <div class="pill pr">✗ <span id="sc-wrg">0</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="ex-list"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="s-res" class="screen">
+  <div class="res-circle" id="res-circle" style="--pct:0">
+    <div class="res-inner">
+      <div class="res-pct" id="res-pct">0%</div>
+      <div class="res-frac" id="res-frac">0/0</div>
+    </div>
+  </div>
+  <div class="res-breakdown">
+    <div class="bd-title">Ergebnisse im Detail</div>
+    <div id="bd-list"></div>
+  </div>
+  <div class="res-acts">
+    <button class="btn-sec" onclick="showScreen('s-start')">← Start</button>
+    <button class="btn-prim" onclick="retrySession()">Nochmal! 🔁</button>
+  </div>
+</div>
+
+<script>
+// ─── CONSTANTS ────────────────────────────────────
+const TYPE_NAMES=['','Ausmultiplizieren','Ausklammern','Binomische Formeln','Wurzeln',
+  'Quad. Gleichungen','Bruchrechnung','Nullstellen lin. Fkt.','Funktionswerte',
+  'Funktionsgl. bestimmen','Graphen skizzieren'];
+
+// ─── PERSISTENT STATS ────────────────────────────
+// stats[typeId] = {attempts: N, correct: N}
+function loadStats(){
+  try{return JSON.parse(localStorage.getItem('kopf9_stats')||'{}');}catch(e){return{};}
+}
+function saveStats(st){
+  try{localStorage.setItem('kopf9_stats',JSON.stringify(st));}catch(e){}
+}
+function recordStat(typeId,ok){
+  const st=loadStats();
+  if(!st[typeId])st[typeId]={attempts:0,correct:0};
+  st[typeId].attempts++;
+  if(ok)st[typeId].correct++;
+  saveStats(st);
+  renderStats();
+}
+function resetStats(){
+  if(!confirm('Statistik wirklich zurücksetzen?'))return;
+  try{localStorage.removeItem('kopf9_stats');}catch(e){}
+  renderStats();
+}
+function renderStats(){
+  const st=loadStats();
+  const body=document.getElementById('stats-body');
+  if(!body)return;
+  const ids=Object.keys(st).map(Number).filter(n=>n>=1&&n<=10);
+  if(!ids.length){body.innerHTML='<div class="stats-empty">Noch keine Aufgaben bearbeitet.</div>';return;}
+  // Sort by type id
+  ids.sort((a,b)=>a-b);
+  let html='';
+  ids.forEach(id=>{
+    const d=st[id],pct=d.attempts?Math.round(d.correct/d.attempts*100):0;
+    const pctCol=pct>=80?'var(--green)':pct>=50?'var(--gold)':'var(--red)';
+    html+=`<div class="stat-row">
+      <div class="stat-num">${id}</div>
+      <div class="stat-name" title="${TYPE_NAMES[id]}">${TYPE_NAMES[id]}</div>
+      <div class="stat-bar-wrap">
+        <div class="stat-bar-bg" style="width:${d.attempts?100:0}%"></div>
+        <div class="stat-bar-ok" style="width:${pct}%"></div>
+      </div>
+      <div class="stat-pct" style="color:${pctCol}">${d.attempts?pct+'%':'–'}</div>
+      <div class="stat-count">${d.correct}/${d.attempts}</div>
+    </div>`;
+  });
+  body.innerHTML=html;
+}
+// Render on load
+document.addEventListener('DOMContentLoaded',renderStats);
+
+// ─── MATH HELPERS ────────────────────────────────
+const ri=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[ri(0,a.length-1)];
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;}
+
+function frac(num,den){
+  if(!den)return'?';if(!num)return'0';
+  if(den<0){num=-num;den=-den;}
+  const g=gcd(Math.abs(num),den);num/=g;den/=g;
+  if(den===1)return`${num}`;
+  return num<0?`-\\frac{${-num}}{${den}}`:`\\frac{${num}}{${den}}`;
+}
+function addT(c,v=''){
+  if(!c)return'';
+  const s=c>0?'+':'-',a=Math.abs(c);
+  if(!v)return`${s}${a}`;
+  if(a===1)return`${s}${v}`;
+  return`${s}${a}${v}`;
+}
+function leadT(c,v=''){
+  if(!c)return'0';
+  const s=c<0?'-':'',a=Math.abs(c);
+  if(!v)return`${s}${a}`;
+  if(a===1)return`${s}${v}`;
+  return`${s}${a}${v}`;
+}
+function quadTerm(aVal,aTex,h){
+  if(h===0){
+    if(aVal===1)return'x^2';
+    if(aVal===-1)return'-x^2';
+    return`${aTex}x^2`;
+  }
+  const xp=h>0?`(x-${h})`:`(x+${-h})`;
+  if(aVal===1)return`${xp}^2`;
+  if(aVal===-1)return`-${xp}^2`;
+  return`${aTex}{\\cdot}${xp}^2`;
+}
+function tex(s){
+  try{return katex.renderToString(s,{throwOnError:false});}catch(e){return s;}
+}
+
+// ─── GENERATORS ──────────────────────────────────
+
+function genType1(){
+  const v=ri(0,2);
+  if(v===0){
+    const n=ri(2,7),a=ri(2,8),b=ri(1,9);
+    return{q:`${n}{\\cdot}(${a}x+${b})`,ans:`${n*a}x+${n*b}`};
+  }
+  if(v===1){
+    const a=ri(2,5),b=ri(2,7),c=ri(1,8);
+    return{q:`${a}x{\\cdot}(${b}x+${c})`,ans:`${a*b}x^2+${a*c}x`};
+  }
+  const a=ri(2,8),b=ri(2,8),s=pick([-1,1]);
+  return{
+    q:`x{\\cdot}(${a}x${s>0?'+':'-'}${b}y)`,
+    ans:s>0?`${a}x^2+${b}xy`:`${a}x^2-${b}xy`
+  };
+}
+
+function genType2(){
+  let g,a,b;
+  do{g=pick([2,3,4,5]);a=ri(1,5);b=ri(1,6);}
+  while(gcd(a,b)!==1);
+  const v=ri(0,1);
+  if(v===0)return{q:`${g*a}x^2+${g*b}x`,ans:`${g}x(${a}x+${b})`};
+  return{q:`${g*a}x+${g*b}x^2`,ans:`${g}x(${a}+${b}x)`};
+}
+
+function genType3(){
+  const f=ri(0,2),d=ri(0,1);
+  const a=ri(1,3),b=ri(1,6);
+  const a2=a*a,b2=b*b,ab2=2*a*b;
+  const ax=a===1?'x':`${a}x`;
+  const a2x2=a===1?'x^2':`${a2}x^2`;
+  let sub,q,ans;
+  if(f===0){
+    sub=d===0?'1. BF – erweitern':'1. BF – erkennen';
+    [q,ans]=d===0
+      ?[`(${ax}+${b})^2`,`${a2x2}+${ab2}x+${b2}`]
+      :[`${a2x2}+${ab2}x+${b2}`,`(${ax}+${b})^2`];
+  }else if(f===1){
+    sub=d===0?'2. BF – erweitern':'2. BF – erkennen';
+    [q,ans]=d===0
+      ?[`(${ax}-${b})^2`,`${a2x2}-${ab2}x+${b2}`]
+      :[`${a2x2}-${ab2}x+${b2}`,`(${ax}-${b})^2`];
+  }else{
+    sub=d===0?'3. BF – erweitern':'3. BF – erkennen';
+    [q,ans]=d===0
+      ?[`(${ax}+${b})(${ax}-${b})`,`${a2x2}-${b2}`]
+      :[`${a2x2}-${b2}`,`(${ax}+${b})(${ax}-${b})`];
+  }
+  return{q,ans,sub};
+}
+
+// Simplifiable surds: inner = k² * m, answer: k√m
+// Curated list so they're genuinely useful for class
+const SURDS=[
+  // small
+  {inner:8,  k:2,m:2},  // √8  = 2√2
+  {inner:12, k:2,m:3},  // √12 = 2√3
+  {inner:18, k:3,m:2},  // √18 = 3√2
+  {inner:20, k:2,m:5},  // √20 = 2√5
+  {inner:27, k:3,m:3},  // √27 = 3√3
+  {inner:28, k:2,m:7},  // √28 = 2√7
+  {inner:32, k:4,m:2},  // √32 = 4√2
+  {inner:45, k:3,m:5},  // √45 = 3√5
+  {inner:48, k:4,m:3},  // √48 = 4√3
+  {inner:50, k:5,m:2},  // √50 = 5√2
+  {inner:63, k:3,m:7},  // √63 = 3√7
+  {inner:72, k:6,m:2},  // √72 = 6√2
+  {inner:75, k:5,m:3},  // √75 = 5√3
+  {inner:80, k:4,m:5},  // √80 = 4√5
+  {inner:98, k:7,m:2},  // √98 = 7√2
+  {inner:108,k:6,m:3},  // √108= 6√3
+  {inner:147,k:7,m:3},  // √147= 7√3
+  {inner:162,k:9,m:2},  // √162= 9√2
+  {inner:200,k:10,m:2}, // √200=10√2
+  {inner:300,k:10,m:3}, // √300=10√3
+  {inner:242,k:11,m:2}, // √242=11√2
+  {inner:363,k:11,m:3}, // √363=11√3
+];
+
+// Larger perfect squares up to 400
+const BIG_ROOTS=[];
+for(let n=14;n<=20;n++) BIG_ROOTS.push(n);
+
+function genType4(){
+  const v=ri(0,4);
+  if(v===0){
+    // small perfect square √(n²), n=2..13
+    const n=ri(2,13);
+    return{q:`\\sqrt{${n*n}}`,ans:`${n}`};
+  }
+  if(v===1){
+    // large perfect square √(n²), n=14..20, or nice ones like √225, √400
+    const extras=[15,16,18,20];
+    const n=pick([...BIG_ROOTS,...extras]);
+    return{q:`\\sqrt{${n*n}}`,ans:`${n}`};
+  }
+  if(v===2){
+    // simplifiable surd √(k²·m) = k√m
+    const s=pick(SURDS);
+    return{q:`\\sqrt{${s.inner}}`,ans:`${s.k}\\sqrt{${s.m}}`,sub:'vereinfachen'};
+  }
+  if(v===3){
+    // scalar multiple: c·√(k²·m) = ck√m
+    const s=pick(SURDS.filter(x=>x.k<=5)); // keep answers manageable
+    const c=pick([2,3,4,5]);
+    return{q:`${c}{\\cdot}\\sqrt{${s.inner}}`,ans:`${c*s.k}\\sqrt{${s.m}}`,sub:'vereinfachen'};
+  }
+  // v===4: fraction √(n²/m²) = n/m
+  const n=ri(2,7),m=ri(2,6);
+  return{q:`\\sqrt{\\dfrac{${n*n}}{${m*m}}}`,ans:frac(n,m)};
+}
+
+function genType5(){
+  const v=ri(0,3);
+  if(v===0){
+    const a=ri(2,9);
+    return{q:`x^2-${a*a}=0`,ans:`x_1=${a},\\;x_2=-${a}`};
+  }
+  if(v===1){
+    const x=ri(1,6),c=pick([2,3,4]);
+    return{q:`${c}x^2-${c*x*x}=0`,ans:`x_1=${x},\\;x_2=-${x}`};
+  }
+  if(v===2){
+    const b=ri(2,9),s=pick([-1,1]);
+    const bStr=s>0?`+${b}`:`-${b}`;
+    return{q:`x^2${bStr}x=0`,ans:`x_1=0,\\;x_2=${-b*s}`};
+  }
+  // v===3: Scheitelpunktform a*(x-d)^2 + e = f
+  const a=pick([1,1,1,2,4]);
+  const r=ri(1,5);
+  const d=ri(-4,4);
+  const e=ri(-9,9);
+  const f=a*r*r+e;
+  const xPart=d===0?'x':d>0?`(x-${d})`:`(x+${-d})`;
+  const aPart=a===1?'':`${a}{\\cdot}`;
+  const ePart=e>0?`+${e}`:e<0?`-${-e}`:'';
+  const x1=d+r,x2=d-r;
+  const ansTex=x1===x2?`x=${x1}`:`x_1=${x1},\\;x_2=${x2}`;
+  return{q:`${aPart}${xPart}^2${ePart}=${f}`,ans:ansTex,sub:'Scheitelpunktform'};
+}
+
+function genType6(){
+  const v=ri(0,3);
+  if(v===0){
+    const b=pick([2,3,4,5,6]),d=pick([2,3,4,5,6]),a=ri(1,b),c=ri(1,d);
+    const num=a*d+c*b,den=b*d,g=gcd(num,den);
+    return{q:`\\dfrac{${a}}{${b}}+\\dfrac{${c}}{${d}}`,ans:frac(num/g,den/g)};
+  }
+  if(v===1){
+    const b=pick([2,3,4]),d=pick([2,3,4]),a=ri(1,b*3),c=ri(1,d);
+    const num=a*d*d-c*c*b,den=b*d*d,g=gcd(Math.abs(num),den);
+    return{q:`\\dfrac{${a}}{${b}}-\\left(\\dfrac{${c}}{${d}}\\right)^2`,ans:frac(num/g,den/g)};
+  }
+  if(v===2){
+    const b=pick([2,3,4,5,6]),d=pick([2,3,4,5,6]),a=ri(1,b*2),c=ri(1,d*2);
+    const num=a*c,den=b*d,g=gcd(num,den);
+    return{q:`\\dfrac{${a}}{${b}}{\\cdot}\\dfrac{${c}}{${d}}`,ans:frac(num/g,den/g)};
+  }
+  const b=pick([2,3,4,5]),d=pick([2,3,4,5]),a=ri(1,b),c=ri(1,d);
+  const num=a*d,den=b*c,g=gcd(num,den);
+  return{q:`\\dfrac{${a}}{${b}}\\div\\dfrac{${c}}{${d}}`,ans:frac(num/g,den/g)};
+}
+
+function genType7(){
+  const a=ri(1,5),bAbs=ri(1,9),s=pick([-1,1]),b=bAbs*s;
+  const aS=a===1?'':''+a,bS=b>0?`+${b}`:`-${bAbs}`;
+  return{q:`y=${aS}x${bS}`,ans:`x=${frac(-b,a)}`};
+}
+
+function genType8(){
+  const a=ri(1,3),b=ri(-3,3),c=ri(-5,5),x0=ri(1,5);
+  const val=a*x0*x0+b*x0+c;
+  let f=a===1?'x^2':`${a}x^2`;
+  if(b)f+=b>0?`+${b}x`:`-${Math.abs(b)}x`;
+  if(c)f+=c>0?`+${c}`:`-${Math.abs(c)}`;
+  return{q:`f(x)=${f},\\quad f(${x0})=?`,ans:`${val}`};
+}
+
+const A_OPTS=[
+  {val:1,tex:'1'},{val:-1,tex:'-1'},{val:2,tex:'2'},{val:-2,tex:'-2'},
+  {val:3,tex:'3'},{val:0.5,tex:'\\frac{1}{2}'},{val:-0.5,tex:'-\\frac{1}{2}'}
+];
+
+function genType9(){
+  const ao=pick(A_OPTS),h=ri(-4,4),k=ri(-4,5);
+  const qt=quadTerm(ao.val,ao.tex,h);
+  const kP=k>0?`+${k}`:k<0?`-${-k}`:'';
+  return{q:`a=${ao.tex},\\quad S(${h}\\mid${k})`,ans:`f(x)=${qt}${kP}`};
+}
+
+function genType10(){
+  let ao,h,k;
+  do{ao=pick(A_OPTS);h=ri(-3,3);k=ri(-3,3);}
+  while(Math.abs(k+ao.val)>5);
+  const qt=quadTerm(ao.val,ao.tex,h);
+  const kP=k>0?`+${k}`:k<0?`-${-k}`:'';
+  return{
+    q:`f(x)=${qt}${kP}`,
+    vertex:{x:h,y:k},
+    stretchPoints:[{x:h-1,y:k+ao.val},{x:h+1,y:k+ao.val}],
+    type10:true,
+    ans:`S(${h}\\mid${k}),\\;(${h-1}\\mid${k+ao.val}),\\;(${h+1}\\mid${k+ao.val})`
+  };
+}
+
+const GENS=[null,genType1,genType2,genType3,genType4,genType5,genType6,genType7,genType8,genType9,genType10];
+function genProblem(id){const p=GENS[id]();p.typeId=id;p.typeName=TYPE_NAMES[id];return p;}
+
+// ─── SESSION ─────────────────────────────────────
+let S={problems:[],idx:0,results:[],mode:'all',selTypes:[]};
+
+function buildSession(types,perType){
+  const probs=[];
+  types.forEach(t=>{for(let i=0;i<perType;i++)probs.push(genProblem(t));});
+  S.problems=probs;S.idx=0;S.results=new Array(probs.length).fill(null);
+}
+
+// ─── SCREEN NAV ──────────────────────────────────
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='s-start')renderStats();
+}
+
+function startAll(){
+  S.mode='all';S.selTypes=[1,2,3,4,5,6,7,8,9,10];
+  buildSession(S.selTypes,1);
+  startExercise();
+}
+
+// SELECT
+let selSet=new Set([1,2,3,4,5,6,7,8,9,10]);
+function showSelectScreen(){
+  selSet=new Set([1,2,3,4,5,6,7,8,9,10]);
+  const g=document.getElementById('sel-grid');g.innerHTML='';
+  for(let i=1;i<=10;i++){
+    const d=document.createElement('div');d.className='ex-chk sel';d.dataset.id=i;
+    d.innerHTML=`<div class="chk-icon">✓</div><div><div class="chk-text">${TYPE_NAMES[i]}</div><div class="chk-num">Typ ${i}</div></div>`;
+    d.onclick=()=>{
+      if(selSet.has(i)){selSet.delete(i);d.classList.remove('sel');d.querySelector('.chk-icon').textContent='';}
+      else{selSet.add(i);d.classList.add('sel');d.querySelector('.chk-icon').textContent='✓';}
+      document.getElementById('btn-start-sel').disabled=!selSet.size;
+    };
+    g.appendChild(d);
+  }
+  showScreen('s-select');
+}
+function toggleAll(){
+  if(selSet.size===10){
+    selSet.clear();
+    document.querySelectorAll('.ex-chk').forEach(el=>{el.classList.remove('sel');el.querySelector('.chk-icon').textContent='';});
+  }else{
+    for(let i=1;i<=10;i++)selSet.add(i);
+    document.querySelectorAll('.ex-chk').forEach(el=>{el.classList.add('sel');el.querySelector('.chk-icon').textContent='✓';});
+  }
+  document.getElementById('btn-start-sel').disabled=!selSet.size;
+}
+function startSel(){
+  if(!selSet.size)return;
+  S.mode='sel';S.selTypes=[...selSet].sort((a,b)=>a-b);
+  buildSession(S.selTypes,1);startExercise();
+}
+
+// SINGLE
+function showSingleScreen(){
+  const list=document.getElementById('single-list');list.innerHTML='';
+  for(let i=1;i<=10;i++){
+    const d=document.createElement('div');d.className='s-item';
+    d.innerHTML=`<div class="nbadge">${i}</div><div><div>${TYPE_NAMES[i]}</div></div>`;
+    d.onclick=()=>{S.mode='single';S.selTypes=[i];buildSession([i],5);startExercise();};
+    list.appendChild(d);
+  }
+  showScreen('s-single');
+}
+
+function retrySession(){buildSession(S.selTypes,S.mode==='single'?5:1);startExercise();}
+function confirmAbort(){if(confirm('Übung abbrechen und zum Start?'))showScreen('s-start');}
+
+// ─── EXERCISE: SCROLL-THROUGH ─────────────────────
+// Each problem gets its own card appended to #ex-list.
+// Active card is always at the bottom.
+
+let activeCardId=null; // id of current card div
+
+function startExercise(){
+  document.getElementById('ex-list').innerHTML='';
+  S.idx=0;
+  updScore();
+  showScreen('s-ex');
+  appendCard();
+}
+
+function appendCard(){
+  const p=S.problems[S.idx];
+  const total=S.problems.length;
+
+  // Update progress bar
+  document.getElementById('prog-txt').textContent=`${S.idx+1} / ${total}`;
+  document.getElementById('prog-fill').style.width=`${S.idx/total*100}%`;
+
+  const cardId=`card-${S.idx}`;
+  activeCardId=cardId;
+
+  const card=document.createElement('div');
+  card.id=cardId;
+  card.className='ex-card';
+
+  // Header: type badge + result placeholder
+  const subHtml=p.sub?`<span class="sub-badge">${p.sub}</span>`:'';
+  card.innerHTML=`
+    <div class="card-hdr">
+      <div class="type-badge">#${p.typeId}&nbsp;${p.typeName}${subHtml}</div>
+      <div id="${cardId}-result" class="result-icon"></div>
+    </div>
+    <div class="q-area">${tex(p.q)}</div>
+    ${p.type10 ? buildGraphHTML(cardId,p) : buildRevealHTML(cardId)}
+  `;
+
+  document.getElementById('ex-list').appendChild(card);
+
+  // Scroll new card into view
+  setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'start'}),80);
+
+  // If type10, wire up graph events
+  if(p.type10) initGraph(cardId, p);
+}
+
+function buildRevealHTML(cardId){
+  return `
+    <div id="${cardId}-reveal-area">
+      <button class="btn-reveal" onclick="revealAnswer('${cardId}')">💡 Lösung anzeigen</button>
+      <div id="${cardId}-fb" class="hidden" style="margin-top:10px"></div>
+      <div id="${cardId}-self" class="hidden" style="display:flex;gap:10px;margin-top:10px">
+        <button class="btn-cor" onclick="selfCheck('${cardId}',true)">✓ Richtig</button>
+        <button class="btn-wrg" onclick="selfCheck('${cardId}',false)">✗ Falsch</button>
+      </div>
+    </div>`;
+}
+
+function buildGraphHTML(cardId,p){
+  return `
+    <div id="${cardId}-graph-area">
+      <div class="graph-wrap">
+        <div class="graph-inst">
+          Tippe nacheinander: Scheitelpunkt → Punkt links → Punkt rechts
+          <span class="phase-txt" id="${cardId}-phase">1. Tippen → Scheitelpunkt S(h|k)</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center">
+          <div class="g-legend">
+            <span><span class="ldot" style="background:#f5a623"></span>Scheitelpunkt</span>
+            <span><span class="ldot" style="background:#b088f9"></span>Streckpunkte (±1|a)</span>
+          </div>
+          <button class="btn-greset" onclick="resetGraph('${cardId}')">↺ Reset</button>
+        </div>
+        <div id="${cardId}-svg"></div>
+        <button class="btn-gcheck" id="${cardId}-gcheck" onclick="checkGraph('${cardId}')" disabled>Überprüfen ✓</button>
+      </div>
+      <div id="${cardId}-gfb" class="hidden" style="margin-top:10px"></div>
+    </div>`;
+}
+
+function revealAnswer(cardId){
+  const idx=parseInt(cardId.split('-')[1]);
+  const p=S.problems[idx];
+  document.querySelector(`#${cardId} .btn-reveal`).classList.add('hidden');
+  const fb=document.getElementById(`${cardId}-fb`);
+  fb.className='fb-box fb-ok';
+  fb.innerHTML=`<div class="fb-lbl">✓ Lösung</div><div class="fb-ans">${tex(p.ans)}</div>`;
+  fb.classList.remove('hidden');
+  const sc=document.getElementById(`${cardId}-self`);
+  sc.style.display='flex';sc.classList.remove('hidden');
+}
+
+function selfCheck(cardId,ok){
+  const idx=parseInt(cardId.split('-')[1]);
+  S.results[idx]=ok;updScore();
+  recordStat(S.problems[idx].typeId,ok);
+  document.getElementById(`${cardId}-self`).style.display='none';
+  document.getElementById(`${cardId}-result`).textContent=ok?'✅':'❌';
+  document.getElementById(cardId).classList.add(ok?'done-ok':'done-ng');
+  advanceOrFinish(cardId);
+}
+
+function advanceOrFinish(cardId){
+  S.idx++;
+  if(S.idx>=S.problems.length){
+    // Last problem done – show Beenden button inside this card
+    const card=document.getElementById(cardId);
+    const fin=document.createElement('button');
+    fin.className='btn-next';
+    fin.style.marginTop='14px';
+    fin.textContent='Beenden →';
+    fin.onclick=()=>showResults();
+    card.appendChild(fin);
+    setTimeout(()=>fin.scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+    return;
+  }
+  // Small delay so the ✅/❌ colour is visible before next card appears
+  setTimeout(appendCard, 320);
+}
+
+function updScore(){
+  document.getElementById('sc-cor').textContent=S.results.filter(r=>r===true).length;
+  document.getElementById('sc-wrg').textContent=S.results.filter(r=>r===false).length;
+}
+
+// ─── GRAPH (TYPE 10) ─────────────────────────────
+const G={CELL:38,MARGIN:32,RANGE:6,
+  get SZ(){return 2*this.RANGE*this.CELL+2*this.MARGIN;},
+  get O(){return this.MARGIN+this.RANGE*this.CELL;}
+};
+
+// Per-card graph state keyed by cardId
+const gStates={};
+
+function gc2sv(gx,gy){return{px:G.O+gx*G.CELL,py:G.O-gy*G.CELL};}
+
+function initGraph(cardId,prob){
+  gStates[cardId]={phase:0,placed:[null,null,null],prob,done:false};
+  const SZ=G.SZ,O=G.O,C=G.CELL,R=G.RANGE;
+  let s=`<svg id="${cardId}-gsvg" viewBox="0 0 ${SZ} ${SZ}" width="100%"
+    style="max-width:${SZ}px;border-radius:10px;cursor:crosshair"
+    xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<rect width="${SZ}" height="${SZ}" fill="#111827" rx="10"/>`;
+  for(let i=-R;i<=R;i++){
+    const px=O+i*C,py=O-i*C,opa=i===0?.25:.06,sw=i===0?1:.5;
+    s+=`<line x1="${px}" y1="${G.MARGIN}" x2="${px}" y2="${SZ-G.MARGIN}" stroke="rgba(255,255,255,${opa})" stroke-width="${sw}"/>`;
+    s+=`<line x1="${G.MARGIN}" y1="${py}" x2="${SZ-G.MARGIN}" y2="${py}" stroke="rgba(255,255,255,${opa})" stroke-width="${sw}"/>`;
+    if(i!==0){
+      s+=`<text x="${px}" y="${O+17}" text-anchor="middle" fill="rgba(255,255,255,.28)" font-size="11" font-family="Nunito,sans-serif">${i}</text>`;
+      s+=`<text x="${O-14}" y="${O-i*C+4}" text-anchor="middle" fill="rgba(255,255,255,.28)" font-size="11" font-family="Nunito,sans-serif">${i}</text>`;
+    }
+  }
+  s+=`<defs><marker id="${cardId}-arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f9cf9"/></marker></defs>`;
+  s+=`<line x1="${G.MARGIN-4}" y1="${O}" x2="${SZ-G.MARGIN+6}" y2="${O}" stroke="#4f9cf9" stroke-width="1.5" marker-end="url(#${cardId}-arr)"/>`;
+  s+=`<line x1="${O}" y1="${SZ-G.MARGIN+4}" x2="${O}" y2="${G.MARGIN-6}" stroke="#4f9cf9" stroke-width="1.5" marker-end="url(#${cardId}-arr)"/>`;
+  s+=`<text x="${SZ-G.MARGIN+10}" y="${O+4}" fill="#4f9cf9" font-size="13" font-weight="bold" font-family="Nunito,sans-serif">x</text>`;
+  s+=`<text x="${O+6}" y="${G.MARGIN-8}" fill="#4f9cf9" font-size="13" font-weight="bold" font-family="Nunito,sans-serif">y</text>`;
+  const pcols=['#f5a623','#b088f9','#b088f9'],plbls=['S','P₁','P₂'];
+  for(let i=0;i<3;i++){
+    s+=`<circle id="${cardId}-pp${i}" cx="-99" cy="-99" r="7" fill="${pcols[i]}" stroke="white" stroke-width="1.5" opacity="0"/>`;
+    s+=`<text id="${cardId}-pt${i}" x="-99" y="-99" fill="white" font-size="9" font-weight="bold" font-family="Nunito,sans-serif" text-anchor="middle" opacity="0">${plbls[i]}</text>`;
+    s+=`<circle id="${cardId}-cp${i}" cx="-99" cy="-99" r="10" fill="none" stroke="#3dd68c" stroke-width="2" stroke-dasharray="5 3" opacity="0"/>`;
+  }
+  s+=`<circle id="${cardId}-gh" cx="-99" cy="-99" r="5" fill="rgba(255,255,255,.3)" opacity="0" pointer-events="none"/>`;
+  s+=`<rect id="${cardId}-ghit" x="${G.MARGIN}" y="${G.MARGIN}" width="${2*R*C}" height="${2*R*C}" fill="transparent"/>`;
+  s+='</svg>';
+  document.getElementById(`${cardId}-svg`).innerHTML=s;
+
+  const svg=document.getElementById(`${cardId}-gsvg`);
+  const ghit=document.getElementById(`${cardId}-ghit`);
+  ghit.style.touchAction='manipulation';
+  ghit.addEventListener('click',e=>gClick(e,svg,cardId));
+  ghit.addEventListener('mousemove',e=>gHover(e,svg,cardId));
+  ghit.addEventListener('mouseleave',()=>setA(`${cardId}-gh`,'opacity','0'));
+}
+
+function svPt(e,svg){
+  const r=svg.getBoundingClientRect();
+  return{sx:(e.clientX-r.left)*G.SZ/r.width,sy:(e.clientY-r.top)*G.SZ/r.height};
+}
+function snap(sx,sy){
+  return{gx:Math.round((sx-G.O)/G.CELL*2)/2,gy:Math.round(-(sy-G.O)/G.CELL*2)/2};
+}
+function setA(id,attr,val){const e=document.getElementById(id);if(e)e.setAttribute(attr,val);}
+function setPos(id,px,py){setA(id,'cx',px);setA(id,'cy',py);}
+
+function gHover(e,svg,cardId){
+  const gs=gStates[cardId];
+  if(!gs||gs.done||gs.phase>=3)return;
+  const{sx,sy}=svPt(e,svg),{gx,gy}=snap(sx,sy);
+  if(Math.abs(gx)>G.RANGE||Math.abs(gy)>G.RANGE)return;
+  const{px,py}=gc2sv(gx,gy);
+  setPos(`${cardId}-gh`,px,py);setA(`${cardId}-gh`,'opacity','1');
+}
+
+function gClick(e,svg,cardId){
+  const gs=gStates[cardId];
+  if(!gs||gs.done||gs.phase>=3)return;
+  const{sx,sy}=svPt(e,svg),{gx,gy}=snap(sx,sy);
+  if(Math.abs(gx)>G.RANGE||Math.abs(gy)>G.RANGE)return;
+  const ph=gs.phase;gs.placed[ph]={x:gx,y:gy};gs.phase++;
+  const{px,py}=gc2sv(gx,gy);
+  setPos(`${cardId}-pp${ph}`,px,py);setA(`${cardId}-pp${ph}`,'opacity','1');
+  setA(`${cardId}-pt${ph}`,'x',px+11);setA(`${cardId}-pt${ph}`,'y',py-7);setA(`${cardId}-pt${ph}`,'opacity','1');
+  updatePhase(cardId);
+  if(gs.phase===3){document.getElementById(`${cardId}-gcheck`).disabled=false;setA(`${cardId}-gh`,'opacity','0');}
+}
+
+function updatePhase(cardId){
+  const ph=gStates[cardId]?.phase??0;
+  const txts=['1. Tippen → Scheitelpunkt S(h|k)','2. Tippen → 1 Schritt links (y = k + a)','3. Tippen → 1 Schritt rechts (y = k + a)','Alle Punkte gesetzt → Überprüfen!'];
+  const el=document.getElementById(`${cardId}-phase`);
+  if(el)el.textContent=txts[Math.min(ph,3)];
+}
+
+function resetGraph(cardId){
+  const gs=gStates[cardId];if(!gs)return;
+  gs.phase=0;gs.placed=[null,null,null];gs.done=false;
+  for(let i=0;i<3;i++){
+    ['pp','pt','cp'].forEach(p=>{
+      const el=document.getElementById(`${cardId}-${p}${i}`);
+      if(!el)return;
+      if(el.tagName==='text'){el.setAttribute('x','-99');el.setAttribute('y','-99');}
+      else{el.setAttribute('cx','-99');el.setAttribute('cy','-99');}
+      el.setAttribute('opacity','0');
+    });
+  }
+  setA(`${cardId}-gh`,'opacity','0');
+  document.getElementById(`${cardId}-gcheck`).disabled=true;
+  document.getElementById(`${cardId}-gfb`).classList.add('hidden');
+  document.getElementById(`${cardId}-gnext`).classList.add('hidden');
+  updatePhase(cardId);
+}
+
+function ptOk(p,e){return Math.abs(p.x-e.x)<.01&&Math.abs(p.y-e.y)<.01;}
+
+function checkGraph(cardId){
+  const gs=gStates[cardId];if(!gs)return;
+  gs.done=true;
+  const idx=parseInt(cardId.split('-')[1]);
+  const prob=gs.prob,pl=gs.placed,sp=prob.stretchPoints;
+  const vOk=ptOk(pl[0],prob.vertex);
+  const s1ok=ptOk(pl[1],sp[0])||ptOk(pl[1],sp[1]);
+  const s2ok=ptOk(pl[2],sp[0])||ptOk(pl[2],sp[1]);
+  const allOk=vOk&&s1ok&&s2ok;
+  const ok='#3dd68c',bad='#f96464';
+  setA(`${cardId}-pp0`,'fill',vOk?ok:bad);
+  setA(`${cardId}-pp1`,'fill',s1ok?ok:bad);
+  setA(`${cardId}-pp2`,'fill',s2ok?ok:bad);
+  if(!allOk){
+    [prob.vertex,...sp].forEach((cp,i)=>{
+      const{px,py}=gc2sv(cp.x,cp.y);
+      setPos(`${cardId}-cp${i}`,px,py);setA(`${cardId}-cp${i}`,'opacity','1');
+    });
+  }
+  document.getElementById(`${cardId}-gcheck`).classList.add('hidden');
+  const fb=document.getElementById(`${cardId}-gfb`);
+  fb.className='fb-box '+(allOk?'fb-ok':'fb-ng');
+  fb.innerHTML=`<div class="fb-lbl">${allOk?'✓ Alle drei Punkte korrekt!':'✗ Nicht ganz – grüne Kreise zeigen die richtigen Positionen'}</div><div class="fb-ans">${tex(prob.ans)}</div>`;
+  fb.classList.remove('hidden');
+  S.results[idx]=allOk;updScore();
+  recordStat(prob.typeId,allOk);
+  document.getElementById(cardId).classList.add(allOk?'done-ok':'done-ng');
+  document.getElementById(`${cardId}-result`).textContent=allOk?'✅':'❌';
+  advanceOrFinish(cardId);
+}
+
+// ─── RESULTS ─────────────────────────────────────
+function showResults(){
+  const total=S.problems.length,cor=S.results.filter(r=>r===true).length;
+  const pct=total?Math.round(cor/total*100):0;
+  document.getElementById('res-circle').style.setProperty('--pct',pct);
+  document.getElementById('res-pct').textContent=pct+'%';
+  document.getElementById('res-frac').textContent=`${cor} / ${total}`;
+  const list=document.getElementById('bd-list');list.innerHTML='';
+  S.problems.forEach((p,i)=>{
+    const r=S.results[i],row=document.createElement('div');row.className='bd-row';
+    const sub=p.sub?` <span style="font-size:.68rem;color:var(--muted)">(${p.sub})</span>`:'';
+    row.innerHTML=`<span class="bd-num">${i+1}</span><span class="bd-name">${p.typeName}${sub}</span><span>${r===true?'✅':r===false?'❌':'–'}</span>`;
+    list.appendChild(row);
+  });
+  showScreen('s-res');
+}
+</script>
+</body>
+</html>
